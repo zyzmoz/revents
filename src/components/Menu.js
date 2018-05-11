@@ -6,7 +6,7 @@ const MenuComponent = () =>
   <Menu inverted fixed="top">    
     <Container>
       <Menu.Item header>
-        <img src="assets/logo.png" />
+        <img src="./umage/react.png" />
         Re-vents
       </Menu.Item>
       <Menu.Item name="Events"/>
