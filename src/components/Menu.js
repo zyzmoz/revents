@@ -1,18 +1,23 @@
 import React, { Component } from 'react';
-import { Menu, MenuItem, Item, Input } from 'semantic-ui-react';
+import { Menu, Container, Button } from 'semantic-ui-react';
 import { Link } from 'react-router-dom';
 
 const MenuComponent = () =>
-  <Menu>    
-    <Link className="menu item" to="/">Home</Link>
-    <Link className="menu item" to="/messages">Messages</Link>
-    <Link className="menu item" to="/friends">Friends</Link>    
-    <Menu.Menu position="right">
-      <MenuItem>
-        <Input icon="search" type="text" placeholder="Search" />
-      </MenuItem>
-      <MenuItem onClick={() => alert('Logout')}>Logout</MenuItem>
-    </Menu.Menu>
+  <Menu inverted fixed="top">    
+    <Container>
+      <Menu.Item header>
+        <img src="assets/logo.png" />
+        Re-vents
+      </Menu.Item>
+      <Menu.Item name="Events"/>
+      <Menu.Item>
+        <Button floated="right" positive inverted content="Create Event" />
+      </Menu.Item>
+      <Menu.Item position="right">
+        <Button basic inverted content="Login" />
+        <Button basic inverted content="Sign Out" style={{marginLeft: '0.5em'}} />
+      </Menu.Item>
+    </Container>
   </Menu>
 
 
