@@ -1,3 +1,48 @@
 .padding {
   padding: 5px;
 }
+
+.ui.menu .item img.logo {
+  margin-right: 1.5em;
+}
+
+.ui.fixed.menu {
+  background-image: linear-gradient(
+    135deg,
+    rgb(24,24,115) 0%,
+    rgb(33,138,174) 69%,
+    rgb(32,167,172) 89%
+  ) !important;
+}
+
+.ui.main.container,
+.main.segment {
+  margin-top: 7em;
+}
+
+.ui.segment .item .image {
+  margin-right: 1.3em;
+  float: left;
+}
+
+.ui.segment .item .content {
+  float: left;
+}
+/* Clearfix */
+.ui.segment .item::after,
+.ui.segment .item::before {
+  content: ' ';
+  display: table;
+}
+
+.ui.segment .item::after {
+  clear: both;
+}
+
+.ui.segment .item .content .header {
+  font-size: 16pt;
+  color: #222;
+}
+
+
+
