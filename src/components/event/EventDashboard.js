@@ -30,7 +30,7 @@ const events = [
 ];
 
 class EventDashboard extends Component {
-	constructor(props){
+	constructor(props) {
 		super(props);
 		this.state = {
 			events: events,
@@ -38,9 +38,9 @@ class EventDashboard extends Component {
 		}
 	}
 
-	handleFormOpen = () =>{
+	handleFormOpen = () => {
 		this.setState({
-			isOpen: true 
+			isOpen: true
 		});
 	}
 
@@ -50,15 +50,32 @@ class EventDashboard extends Component {
 		});
 	}
 
+	handleCreateEvent = (newEvent) => {
+		newEvent.id = Math.floor(Math.random() * 1000);
+		newEvent.hostPhotoURL = 'https://randomuser.me/api/portraits/men/7.jpg';
+		newEvent.attendees = [];
+		const updatedEvents = [...this.state.events, newEvent];
+		console.log(updatedEvents);		
+		this.setState({
+			events: updatedEvents,
+			isOpen: false
+		});
+	}
+
 	render() {
 		return (
 			<Grid>
 				<Grid.Column width={10}>
-					<EventList events={events} />
+					<EventList events={this.state.events} />
 				</Grid.Column>
 				<Grid.Column width={6}>
 					<Button onClick={this.handleFormOpen} positive>Create Event</Button>
-					{this.state.isOpen &&  <EventForm handleCancel={this.handleCancel}/>}					
+					{this.state.isOpen &&
+						<EventForm 
+							handleCancel={this.handleCancel} 
+							createEvent={this.handleCreateEvent}
+						/>
+					}
 				</Grid.Column>
 			</Grid>
 		);
