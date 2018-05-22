@@ -11,45 +11,46 @@ import SettingsPage from './user/settings/SettingsDashboard';
 import EventForm from './eventForm/EventForm';
 
 const App = () =>
-  <Router>
-    <div>
-      <Switch>
-        <Route exact path="/"
-          component={HomePage}
-        />
-      </Switch>
-      <Route path="/(.+)"
-        render={() => (
-          <div>
-            <MenuComponent />
-            <Switch>
-              <Container className="main">
-
-                <Route exact path="/events"
-                  component={EventDashboard}
-                />
-                <Route exact path="/events/:id"
-                  component={EventDetailedPage}
-                />
-                <Route exact path="/people"
-                  component={PeopleDashboard}
-                />
-                <Route exact path="/profile/:id"
-                  component={UserDetailedPage}
-                />
-                <Route exact path="/settings"
-                  component={SettingsPage}
-                />
-                <Route exact path="/createEvent"
-                  component={EventForm}
-                />
-
-              </Container>
-            </Switch>
-          </div>
-        )}
+  <div>
+    <Switch>
+      <Route exact path="/"
+        component={HomePage}
       />
-    </div>
-  </Router>
+    </Switch>
+    <Route path="/(.+)/"
+      render={() => (
+        <div>
+          <MenuComponent />
+          <Container className="main">
+            <Switch>
+              {/* User EXACT just when its an UNIQUE url that doesn't share anything with other routes */}
+              <Route path="/events"
+                component={EventDashboard}
+              />
+              <Route path="/events/:id"
+                component={EventDetailedPage}
+              />
+              <Route path="/people"
+                component={PeopleDashboard}
+              />
+              <Route path="/profile/:id"
+                component={UserDetailedPage}
+              />
+              <Route path="/settings"
+                component={SettingsPage}
+              />
+
+              <Route path="/createEvent"
+                component={EventForm}
+              />
+
+            </Switch>
+          </Container>
+
+        </div>
+      )}
+    />
+  </div>
+
 
 export default App;

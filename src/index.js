@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom';
 import App from './components/App';
 import 'semantic-ui-css/semantic.min.css';
 import './assets/css/master.css';
+import { BrowserRouter } from 'react-router-dom';
 
 //redux
 import { Provider } from 'react-redux';
@@ -14,7 +15,9 @@ import reducers from './reducers';
 
 ReactDOM.render(
   <Provider store={createStoreWithMiddleware(reducers)}>
-    <App />
+    <BrowserRouter>
+      <App />
+    </BrowserRouter>
   </Provider>  ,
   document.getElementById('root')
 );
