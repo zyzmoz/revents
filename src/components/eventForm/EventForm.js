@@ -25,6 +25,16 @@ class EventForm extends Component {
 		}		
 	}
 
+	componentWillReceiveProps(nextProps){
+		//Check if there is different props, if so update 
+		if (nextProps.selectedEvent !== this.props.selectedEvent){
+			this.setState({
+				event: nextProps.selectedEvent || emptyEvent
+			})
+		}
+
+	}
+
 	onFormSubmit = (evt) => {
 		evt.preventDefault();
 		console.log(this.state.event);

@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Menu, Container, Button } from 'semantic-ui-react';
 import { Link } from 'react-router-dom';
-import logoSrc from '../assets/img/react.png'
+import logoSrc from '../assets/img/react.png';
 
 const MenuComponent = () =>
   <Menu inverted fixed="top">    
