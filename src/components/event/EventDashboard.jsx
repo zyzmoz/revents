@@ -2,38 +2,17 @@ import React, { Component } from 'react';
 import { Grid, Button } from 'semantic-ui-react';
 import EventList from './EventList';
 import EventForm from '../eventForm/EventForm';
-
-const events = [
-	{
-		id: '1',
-		title: 'Trip to Tower of London',
-		date: "2018-09-18",
-		category: 'culture',
-		description: 'Hello UK',
-		city: 'London, UK',
-		venue: "Tower",
-		hostedBy: "Bob",
-		hostPhotoURL: 'https://randomuser.me/api/portraits/men/21.jpg',
-		attendees: [
-			{
-				id: 'a',
-				name: "Bob",
-				photoURL: 'https://randomuser.me/api/portraits/men/21.jpg'
-			},
-			{
-				id: 'b',
-				name: "Tom",
-				photoURL: 'https://randomuser.me/api/portraits/men/22.jpg'
-			}
-		]
-	}
-];
+import { connect } from 'react-redux';
+import {
+	createEvent,
+	updateEvent,
+	deleteEvent
+} from '../../actions/event';
 
 class EventDashboard extends Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-			events: events,
 			isOpen: false,
 			selectedEvent : null
 		}
@@ -88,18 +67,16 @@ class EventDashboard extends Component {
 	}	
 
 	handleDeleteEvent = (eventId) => () => {
-		const updatedEvents = this.state.events.filter( e => e.id !== eventId);
-		this.setState({
-			events: updatedEvents
-		});
+		this.props.deleteEvent(eventId);
 	}
 
 	render() {
 		const { selectedEvent } = this.state;
+		const { events } = this.props;
 		return (
 			<Grid>
 				<Grid.Column width={10}>
-					<EventList deleteEvent={this.handleDeleteEvent} onEventOpen={this.handleOpenEvent} events={this.state.events} />
+					<EventList deleteEvent={this.handleDeleteEvent} onEventOpen={this.handleOpenEvent} events={events} />
 				</Grid.Column>
 				<Grid.Column width={6}>
 					<Button onClick={this.handleFormOpen} positive>Create Event</Button>
@@ -116,5 +93,14 @@ class EventDashboard extends Component {
 		);
 	}
 }
+const mapState = (state) => ({
+	events: state.events
+});
 
-export default EventDashboard;
+const actions = {
+	createEvent,
+	updateEvent,
+	deleteEvent
+};
+
+export default connect(mapState, actions)(EventDashboard);

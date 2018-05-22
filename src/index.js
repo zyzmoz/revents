@@ -8,9 +8,9 @@ import { BrowserRouter } from 'react-router-dom';
 //redux
 import { Provider } from 'react-redux';
 import { createStore, applyMiddleware } from 'redux';
+import { composeWithDevTools } from 'redux-devtools-extension';
 
-const createStoreWithMiddleware = applyMiddleware()(createStore);
-
+const createStoreWithMiddleware = composeWithDevTools(applyMiddleware(/*Here goes the middlewares*/))(createStore);
 import reducers from './reducers';
 
 ReactDOM.render(
