@@ -16,18 +16,18 @@ class EventForm extends Component {
 	}
 
 
-	componentDidMount() {	
-		const { selectedEvent } =	this.props;
-		if (selectedEvent !== null) {					
-			this.setState({ 
-				event: selectedEvent 
+	componentDidMount() {
+		const { selectedEvent } = this.props;
+		if (selectedEvent !== null) {
+			this.setState({
+				event: selectedEvent
 			});
-		}		
+		}
 	}
 
-	componentWillReceiveProps(nextProps){
+	componentWillReceiveProps(nextProps) {
 		//Check if there is different props, if so update 
-		if (nextProps.selectedEvent !== this.props.selectedEvent){
+		if (nextProps.selectedEvent !== this.props.selectedEvent) {
 			this.setState({
 				event: nextProps.selectedEvent || emptyEvent
 			})
@@ -37,8 +37,11 @@ class EventForm extends Component {
 
 	onFormSubmit = (evt) => {
 		evt.preventDefault();
-		console.log(this.state.event);
-		this.props.createEvent(this.state.event);
+		if (this.state.event.id) {
+			this.props.updateEvent(this.state.event);
+		} else {
+			this.props.createEvent(this.state.event);
+		}
 	}
 
 	onInputChange = (evt) => {
