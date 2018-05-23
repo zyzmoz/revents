@@ -27,7 +27,7 @@ const App = () =>
               <Route path="/events"
                 component={EventDashboard}
               />
-              <Route path="/events/:id"
+              <Route path="/event/:id"
                 component={EventDetailedPage}
               />
               <Route path="/people"
