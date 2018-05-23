@@ -1,7 +1,12 @@
 import React, { Component } from 'react';
 import { Segment, Form, Button } from 'semantic-ui-react';
 import { connect } from 'react-redux';
+import imageSrc from '../../assets/img/react.png';
+import {
+	createEvent,
+	updateEvent
 
+} from '../../actions/event';
 
 
 class EventForm extends Component {
@@ -34,8 +39,24 @@ class EventForm extends Component {
 		evt.preventDefault();
 		if (this.state.event.id) {
 			this.props.updateEvent(this.state.event);
+			this.props.history.goBack();
 		} else {
-			this.props.createEvent(this.state.event);
+			const uid =Math.floor(Math.random() * Math.floor(1000)).toString();
+			const newEvent = {
+				...this.state.event,
+				id: uid,
+				hostPhotoURL: imageSrc,
+				attendees: [
+					{	
+						id: uid,
+						name: this.state.event.hostedBy,
+						photoURL: imageSrc,
+						isHost: true
+					}
+				]
+			}
+			this.props.createEvent(newEvent);
+			this.props.history.push('/events');
 		}
 	}
 
@@ -73,7 +94,7 @@ class EventForm extends Component {
 					<Button positive type="submit">
 						Submit
 					</Button>
-					<Button onClick={() => handleCancel()} type="button">Cancel</Button>
+					<Button onClick={() => this.props.history.goBack} type="button">Cancel</Button>
 				</Form>
 			</Segment>
 		);
@@ -101,4 +122,9 @@ const mapState = (state, ownProps) => {
 	}
 }
 
-export default connect(mapState)(EventForm);
+const actions = {
+	createEvent,
+	updateEvent
+}
+
+export default connect(mapState, actions)(EventForm);

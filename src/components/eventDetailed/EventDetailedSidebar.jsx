@@ -3,7 +3,7 @@ import { Segment, List, Item, Label } from 'semantic-ui-react';
 import imageSrc from '../../assets/img/react.png';
 
 const EventDetailedSidebar = ({ attendees }) => {
-  const isHost = false;
+  const {isHost} = attendees;
   return (
     <div>
       <Segment
@@ -20,7 +20,7 @@ const EventDetailedSidebar = ({ attendees }) => {
         <List relaxed divided>
           {attendees && attendees.map(attendee => (
             <Item key={attendee.id} style={{ position: 'relative' }}>
-              {isHost &&
+              {attendee.isHost &&
                 <Label
                   style={{ position: 'absolute' }}
                   color="orange"

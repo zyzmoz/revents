@@ -8,16 +8,17 @@ import { connect } from 'react-redux';
 
 
 
-const EventDetailedPage = ({event}) => {
+const EventDetailedPage = ({ event }) => {
+  
   return (
     <Grid>
       <Grid.Column width={10}>
-        <EventDetailedHeader event={event}/>
-        <EventDetailedInfo event={event}/>
+        <EventDetailedHeader event={event} />
+        <EventDetailedInfo event={event} />
         <EventDetailedChat />
       </Grid.Column>
       <Grid.Column width={6}>
-        <EventDetailedSidebar attendees={event.attendees}/>
+        <EventDetailedSidebar attendees={event.attendees} />
       </Grid.Column>
     </Grid>
   )
