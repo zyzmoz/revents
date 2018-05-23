@@ -4,21 +4,35 @@ import EventDetailedHeader from './EventDetailedHeader';
 import EventDetailedChat from './EventDetailedChat';
 import EventDetailedInfo from './EventDetailedInfo';
 import EventDetailedSidebar from './EventDetailedSidebar';
+import { connect } from 'react-redux';
 
 
-const EventDetailedPage = () => {
+
+const EventDetailedPage = ({event}) => {
   return (
     <Grid>
       <Grid.Column width={10}>
-        <EventDetailedHeader />
-        <EventDetailedInfo />
+        <EventDetailedHeader event={event}/>
+        <EventDetailedInfo event={event}/>
         <EventDetailedChat />
       </Grid.Column>
       <Grid.Column width={6}>
-        <EventDetailedSidebar />
+        <EventDetailedSidebar attendees={event.attendees}/>
       </Grid.Column>
     </Grid>
   )
 }
 
-export default EventDetailedPage;
+const mapState = (state, ownProps) => {
+  const eventId = ownProps.match.params.id;
+  let event = {};
+  if (eventId && state.events.length > 0) {
+    event = state.events.filter(event => event.id === eventId)[0];
+  }
+
+  return {
+    event
+  }
+}
+
+export default connect(mapState)(EventDetailedPage);

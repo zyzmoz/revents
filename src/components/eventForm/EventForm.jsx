@@ -1,39 +1,34 @@
 import React, { Component } from 'react';
 import { Segment, Form, Button } from 'semantic-ui-react';
+import { connect } from 'react-redux';
 
-const emptyEvent = {
-	title: '',
-	date: '',
-	city: '',
-	venue: '',
-	hostedBy: ''
-}
+
 
 class EventForm extends Component {
 
 	state = {
-		event: emptyEvent
+		event: Object.assign({}, this.props.event)
 	}
 
 
-	componentDidMount() {
-		const { selectedEvent } = this.props;
-		if (selectedEvent !== null) {
-			this.setState({
-				event: selectedEvent
-			});
-		}
-	}
+	// componentDidMount() {
+	// 	const { selectedEvent } = this.props;
+	// 	if (selectedEvent !== null) {
+	// 		this.setState({
+	// 			event: selectedEvent
+	// 		});
+	// 	}
+	// }
 
-	componentWillReceiveProps(nextProps) {
-		//Check if there is different props, if so update 
-		if (nextProps.selectedEvent !== this.props.selectedEvent) {
-			this.setState({
-				event: nextProps.selectedEvent || emptyEvent
-			})
-		}
+	// componentWillReceiveProps(nextProps) {
+	// 	//Check if there is different props, if so update 
+	// 	if (nextProps.selectedEvent !== this.props.selectedEvent) {
+	// 		this.setState({
+	// 			event: nextProps.selectedEvent || emptyEvent
+	// 		})
+	// 	}
 
-	}
+	// }
 
 	onFormSubmit = (evt) => {
 		evt.preventDefault();
@@ -85,4 +80,25 @@ class EventForm extends Component {
 	}
 }
 
-export default EventForm;
+const mapState = (state, ownProps) => {
+	const eventId = ownProps.match.params.id;
+
+	let event = {
+		title: '',
+		date: '',
+		city: '',
+		venue: '',
+		hostedBy: ''
+	}
+
+	if (eventId && state.events.length > 0){		
+		//For a single  event remember to add the index = 0 a.k.a "[0]"
+		event = state.events.filter(event => event.id === eventId)[0];
+	}
+
+	return {
+		event
+	}
+}
+
+export default connect(mapState)(EventForm);

@@ -30,6 +30,9 @@ const App = () =>
               <Route path="/event/:id"
                 component={EventDetailedPage}
               />
+              <Route path="/manage/:id"
+                component={EventForm}
+              />
               <Route path="/people"
                 component={PeopleDashboard}
               />

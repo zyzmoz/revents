@@ -4,6 +4,7 @@ import App from './components/App';
 import 'semantic-ui-css/semantic.min.css';
 import './assets/css/master.css';
 import { BrowserRouter } from 'react-router-dom';
+import  ScrollToTop from './components/util/ScrollToTop';
 
 //redux
 import { Provider } from 'react-redux';
@@ -16,7 +17,9 @@ import reducers from './reducers';
 ReactDOM.render(
   <Provider store={createStoreWithMiddleware(reducers)}>
     <BrowserRouter>
-      <App />
+      <ScrollToTop>
+        <App />
+      </ScrollToTop>
     </BrowserRouter>
   </Provider>  ,
   document.getElementById('root')
