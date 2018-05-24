@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { Segment, Form, Button, Header, Grid } from 'semantic-ui-react';
 import { connect } from 'react-redux';
 import { reduxForm, Field } from 'redux-form';
+import moment from 'moment';
 import imageSrc from '../../assets/img/react.png';
 import {
 	createEvent,
@@ -14,6 +15,7 @@ import { combineValidators, composeValidators , isRequired, hasLengthGreaterThan
 import TextInput from '../util/TextInput';
 import TextArea from '../util/TextArea';
 import SelectInput from '../util/SelectInput';
+import DateInput from '../util/DateInput';
 
 const category = [
 	{key: 'drinks', text: 'Drinks', value: 'drinks'},
@@ -32,12 +34,14 @@ const validate = combineValidators({
 		hasLengthGreaterThan(4)({message: 'Description must have more than 5 characters'})
 	)(),
 	city: isRequired('city'),
-	venue: isRequired('venue')
+	venue: isRequired('venue'),
+	date: isRequired('date')
 })
 
 class EventForm extends Component {
 
 	onFormSubmit = (values) => {
+		values.date = moment(values.date).format("YYYY-MM-DD HH:mm");
 		if (values.id) {
 			this.props.updateEvent(values);
 			this.props.history.goBack();
@@ -82,7 +86,14 @@ class EventForm extends Component {
 						<Header sub color="teal" content="Event Location Details" />
 						<Field name="city" type="text" component={TextInput} placeholder="Event City" />
 						<Field name="venue" type="text" component={TextInput} placeholder="event Venue" />
-						<Field name="date" type="text" component={TextInput} placeholder="Event Date" />
+						<Field 
+							name="date" 
+							type="text" 
+							component={DateInput} 
+							dateFormat="YYYY-MM-DD HH:mm" 
+							timeFormat='HH:mm'
+							showTimeSelect
+							placeholder="Event Date" />
 						<Button 
 							disabled={ invalid || submitting || pristine}
 							positive type="submit">							

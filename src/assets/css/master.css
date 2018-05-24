@@ -85,5 +85,9 @@
   font-weight: normal;
 }
 
+.react-datepicker__time-list {
+  padding-left: 0;
+}
+
 
 
