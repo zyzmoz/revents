@@ -16,6 +16,7 @@ import TextInput from '../util/TextInput';
 import TextArea from '../util/TextArea';
 import SelectInput from '../util/SelectInput';
 import DateInput from '../util/DateInput';
+import PlaceIput from '../util/PlaceInput';
 
 const category = [
 	{key: 'drinks', text: 'Drinks', value: 'drinks'},
@@ -37,7 +38,7 @@ const validate = combineValidators({
 	venue: isRequired('venue'),
 	date: isRequired('date')
 })
-
+//
 class EventForm extends Component {
 
 	onFormSubmit = (values) => {
@@ -84,8 +85,8 @@ class EventForm extends Component {
 						<Field name="description" type="text" component={TextArea} rows={3} placeholder="Tell us about your event" />
 
 						<Header sub color="teal" content="Event Location Details" />
-						<Field name="city" type="text" component={TextInput} placeholder="Event City" />
-						<Field name="venue" type="text" component={TextInput} placeholder="event Venue" />
+						<Field name="city" type="text" component={PlaceIput} options={{types:['(cities)']}}  placeholder="Event City" />
+						<Field name="venue" type="text" component={PlaceIput} options={{types:['establishment']}} placeholder="event Venue" />
 						<Field 
 							name="date" 
 							type="text" 
