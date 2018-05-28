@@ -89,7 +89,7 @@
   padding-left: 0;
 }
 
-.autocomplete-dropdown-container  {
+#PlacesAutocomplete__autocomplete-container  {
   position: absolute;
   background-color: #fff;
   width: 100%;

@@ -10,6 +10,7 @@ import {
 
 } from '../../actions/event';
 
+import { geocodeByAddress, getLatLng } from 'react-places-autocomplete';
 import { combineValidators, composeValidators , isRequired, hasLengthGreaterThan} from 'revalidate';
 
 import TextInput from '../util/TextInput';
@@ -40,6 +41,12 @@ const validate = combineValidators({
 })
 //
 class EventForm extends Component {
+
+	state = {
+		cityLatLng: {},
+		
+	}
+
 
 	onFormSubmit = (values) => {
 		values.date = moment(values.date).format("YYYY-MM-DD HH:mm");

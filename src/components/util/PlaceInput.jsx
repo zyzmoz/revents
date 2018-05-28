@@ -3,6 +3,7 @@ import { Form, Label } from 'semantic-ui-react';
 import Script from 'react-load-script';
 import PlacesAutocomplete from 'react-places-autocomplete';
 
+
 class PlaceInput extends Component {
   state = {
     scriptLoaded: false,
@@ -17,6 +18,7 @@ class PlaceInput extends Component {
 
   render() {
     const { input, width, onSelect, placeholder, options, meta: { touched, error } } = this.props;
+    
     return (
       <Form.Field error={touched && !!error}>
         <Script
@@ -29,14 +31,16 @@ class PlaceInput extends Component {
             searchOptions={options}
             onSelect={onSelect}
             onChange={this.onChange}
-            value={this.state.address}
+            value={this.state.address}           
+            
 
           >
             {({ getInputProps, suggestions, getSuggestionItemProps }) => (
               <div>
-                <input placeholder={placeholder} 
+                <input placeholder={placeholder}                   
                   {...getInputProps({                    
-                    className: 'location-search-input',                    
+                    className: 'location-search-input',                                
+                    
                   })}
                 />
                 {suggestions.length > 0 && <div className="autocomplete-dropdown-container">
