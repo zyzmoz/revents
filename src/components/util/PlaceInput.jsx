@@ -1,84 +1,55 @@
+//AIzaSyC_nTjtxOtSO3_2CnYrP3Xurrb16FoJ-RA
 import React, { Component } from 'react';
 import { Form, Label } from 'semantic-ui-react';
 import Script from 'react-load-script';
 import PlacesAutocomplete from 'react-places-autocomplete';
 
+const styles = {
+  autocompleteContainer: {
+    zIndex: 1000
+  }
+}
 
 class PlaceInput extends Component {
   state = {
-    scriptLoaded: false,
-    address: ''
-  }
+    scriptLoaded: false
+  };
 
-  handleScriptLoad = () => this.setState({ scriptLoaded: true });
-
-  onChange = (address) => this.setState({ address });
-
-
+  handleScriptLoaded = () => this.setState({ scriptLoaded: true });
 
   render() {
-    const { input, width, onSelect, placeholder, options, meta: { touched, error } } = this.props;
-    
+    const {
+      input,
+      width,
+      onSelect,
+      placeholder,
+      options,
+      meta: { touched, error }
+    } = this.props;
     return (
-      <Form.Field error={touched && !!error}>
+      <Form.Field error={touched && !!error} width={width}>
         <Script
           url="https://maps.googleapis.com/maps/api/js?key=AIzaSyC_nTjtxOtSO3_2CnYrP3Xurrb16FoJ-RA&libraries=places"
-          onLoad={this.handleScriptLoad}
+          onLoad={this.handleScriptLoaded}
         />
-        {this.state.scriptLoaded &&
+        {this.state.scriptLoaded && (
           <PlacesAutocomplete
             inputProps={{ ...input, placeholder }}
-            searchOptions={options}
+            options={options}
             onSelect={onSelect}
-            onChange={this.onChange}
-            value={this.state.address}           
+            styles={styles}
             
-
-          >
-            {({ getInputProps, suggestions, getSuggestionItemProps }) => (
-              <div>
-                <input placeholder={placeholder}                   
-                  {...getInputProps({                    
-                    className: 'location-search-input',                                
-                    
-                  })}
-                />
-                {suggestions.length > 0 && <div className="autocomplete-dropdown-container">
-                  {suggestions.map(suggestion => {
-                    const className = suggestion.active ? 'suggestion-item--active' : 'suggestion-item';
-                    // inline style for demonstration purpose
-                    const style = suggestion.active
-                      ? { backgroundColor: 'rgba(163,163,163,0.3)', cursor: 'pointer' }
-                      : { backgroundColor: '#ffffff', cursor: 'pointer' };
-                    return (
-                      <div {...getSuggestionItemProps(suggestion, { className, style })}>
-                        <span>{suggestion.description}</span>
-                      </div>
-                    )
-                  })}
-                </div>}
-              </div>
-            )}
-          </PlacesAutocomplete>
-        }
-        {touched && error && <Label basic color="red">{error}</Label>}
+          />
+        )}
+        {touched &&
+          error && (
+            <Label basic color="red">
+              {error}
+            </Label>
+          )}
       </Form.Field>
     );
   }
 }
-
-const renderFunc = ({ getInputProps, getSuggestionItemProps, suggestions }) => (
-  <div className="autocomplete-root">
-    <input {...getInputProps()} />
-    <div className="autocomplete-dropdown-container">
-      {suggestions.map(suggestion => (
-        <div {...getSuggestionItemProps(suggestion)}>
-          <span>{suggestion.description}</span>
-        </div>
-      ))}
-    </div>
-  </div>
-);
-
 
 export default PlaceInput;

@@ -45,6 +45,7 @@ class EventForm extends Component {
 
 	state = {
 		cityLatLng: {},
+		venueLatLng: {},
 		scriptLoaded: false
 
 	}
@@ -52,12 +53,25 @@ class EventForm extends Component {
 	handleCitySelect = (selectedCity) => {
 		geocodeByAddress(selectedCity)
 			.then(results => getLatLng(results[0]))
-			.then(latlng => this.setState({ cityLatLng: latlng }));
+			.then(latlng => this.setState({ cityLatLng: latlng }))
+			.then(() => {
+				this.props.change('city', selectedCity);
+			});
+	}
+
+	handleVenueSelect = (selectedVenue) => {
+		geocodeByAddress(selectedVenue)
+			.then(results => getLatLng(results[0]))
+			.then(latlng => this.setState({ venueLatLng: latlng }))
+			.then(() => {
+				this.props.change('venue', selectedVenue);
+			});
 	}
 
 
 	onFormSubmit = (values) => {
 		values.date = moment(values.date).format("YYYY-MM-DD HH:mm");
+		values.venueLatLng = this.state.venueLatLng;
 		if (values.id) {
 			this.props.updateEvent(values);
 			this.props.history.goBack();
@@ -113,6 +127,7 @@ class EventForm extends Component {
 							options={{ types: ['(cities)'] }}
 							placeholder="Event City"
 							onSelect={this.handleCitySelect}
+							
 						/>
 						{this.state.scriptLoaded &&
 							<Field 
@@ -122,8 +137,9 @@ class EventForm extends Component {
 								options={{ 
 									location: new google.maps.LatLng(this.state.cityLatLng),
 									radius: 1000,
-									types: ['address'] 
+									types: ['establishment'] 
 								}} 
+								onSelect={this.handleVenueSelect}
 								placeholder="event Venue" />
 						}
 						<Field
