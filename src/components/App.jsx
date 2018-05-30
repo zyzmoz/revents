@@ -9,9 +9,11 @@ import PeopleDashboard from './user/peopleDashboard/PeopleDashboard';
 import UserDetailedPage from './user/userDetailed/UserDetailedPage';
 import SettingsPage from './user/settings/SettingsDashboard';
 import EventForm from './eventForm/EventForm';
+import ModalManager from '../components/modals/ModalManager';
 
 const App = () =>
   <div>
+    <ModalManager />
     <Switch>
       <Route exact path="/"
         component={HomePage}
