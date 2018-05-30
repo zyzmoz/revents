@@ -5,13 +5,14 @@ import 'semantic-ui-css/semantic.min.css';
 import './assets/css/master.css';
 import { BrowserRouter } from 'react-router-dom';
 import  ScrollToTop from './components/util/ScrollToTop';
+import thunk from 'redux-thunk';
 
 //redux
 import { Provider } from 'react-redux';
 import { createStore, applyMiddleware } from 'redux';
 import { composeWithDevTools } from 'redux-devtools-extension';
 
-const createStoreWithMiddleware = composeWithDevTools(applyMiddleware(/*Here goes the middlewares*/))(createStore);
+const createStoreWithMiddleware = composeWithDevTools(applyMiddleware(thunk/*Here goes the middlewares*/))(createStore);
 import reducers from './reducers';
 
 ReactDOM.render(
