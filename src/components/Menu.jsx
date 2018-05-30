@@ -6,12 +6,10 @@ import logoSrc from '../assets/img/react.png';
 import SignedOutMenu from './menus/SignedOutMenu';
 import SignedInMenu from './menus/SignedInMenu';
 import { openModal } from '../actions/modal';
+import { logout } from '../actions/auth';
 
 class MenuComponent extends Component {
-  state = {
-    authenticated: false
-  }
-
+ 
   handleSignIn = () => {
     //this.setState({ authenticated: true });
     this.props.openModal('LoginModal');
@@ -22,12 +20,15 @@ class MenuComponent extends Component {
   }
 
   handleSignOut = () => {
-    this.setState({ authenticated: false });
+    this.props.logout();
+    // this.setState({ authenticated: false });
     this.props.history.push('/');
   }
 
   render() {
-    const { authenticated } = this.state;
+    const { auth } = this.props;
+    const authenticated = auth.authenticated;
+
     return (<Menu inverted fixed="top">
       <Container>
         <Menu.Item as={Link} to="/" header>
@@ -42,7 +43,7 @@ class MenuComponent extends Component {
           <Button as={Link} to='/createEvent' floated="right" positive inverted content="Create Event" />
         </Menu.Item>}
         {authenticated ?
-          <SignedInMenu signOut={this.handleSignOut} /> :
+          <SignedInMenu currentUser={auth.currentUser} signOut={this.handleSignOut} /> :
           <SignedOutMenu signIn={this.handleSignIn} register={this.handleRegister}/>}
 
       </Container>
@@ -51,6 +52,10 @@ class MenuComponent extends Component {
   }
 }
 
-const actions = { openModal };
+const actions = { openModal, logout };
 
-export default withRouter(connect(null, actions)(MenuComponent));
+const mapState = (state) => ({
+  auth: state.auth
+});
+
+export default withRouter(connect(mapState, actions)(MenuComponent));
