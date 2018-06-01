@@ -6,6 +6,10 @@ import './assets/css/master.css';
 import { BrowserRouter } from 'react-router-dom';
 import  ScrollToTop from './components/util/ScrollToTop';
 import thunk from 'redux-thunk';
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
+
 
 //redux
 import { Provider } from 'react-redux';
@@ -19,6 +23,7 @@ ReactDOM.render(
   <Provider store={createStoreWithMiddleware(reducers)}>
     <BrowserRouter>
       <ScrollToTop>
+        <ToastContainer />
         <App />
       </ScrollToTop>
     </BrowserRouter>

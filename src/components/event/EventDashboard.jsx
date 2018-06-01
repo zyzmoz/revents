@@ -9,86 +9,24 @@ import {
 	deleteEvent
 } from '../../actions/event';
 
+import LoadingComponent from '../util/LoadingComponent';
+import EventActivity from './EventActivity';
+
 class EventDashboard extends Component {
-	// constructor(props) {
-	// 	super(props);
-	// 	this.state = {
-	// 		isOpen: false,
-	// 		selectedEvent : null
-	// 	}
-	// }
-
-	// handleFormOpen = () => {
-	// 	this.setState({
-	// 		isOpen: true,
-	// 		selectedEvent: null
-	// 	});
-	// }
-
-	// handleCancel = () => {
-	// 	this.setState({
-	// 		isOpen: false
-	// 	});
-	// }
-
-	// handleCreateEvent = (newEvent) => {
-	// 	newEvent.id = Math.floor(Math.random() * 1000);
-	// 	newEvent.hostPhotoURL = 'https://randomuser.me/api/portraits/men/7.jpg';
-	// 	newEvent.attendees = [];
-	// 	const updatedEvents = [...this.state.events, newEvent];
-	// 	console.log(updatedEvents);		
-	// 	this.setState({
-	// 		events: updatedEvents,
-	// 		isOpen: false,
-	// 		selectedEvent: null
-	// 	});
-	// }
-
-	// handleUpdateEvent = (updatedEvent) => {
-	// 	this.setState({
-	// 		events: this.state.events.map(event => {
-	// 			if (event.id === updatedEvent.id) {
-	// 				//It will copy updatedEvent to a new empty object 
-	// 				return  Object.assign({}, updatedEvent);
-	// 			} else {
-	// 				return event;
-	// 			}
-	// 		}),
-	// 		isOpen: false,
-	// 		selectedEvent: null
-	// 	})
-	// }
-
-	// handleOpenEvent = (eventToOpen) => () => {
-	// 	this.setState({
-	// 		selectedEvent: eventToOpen,
-	// 		isOpen: true 
-	// 	})		
-	// }	
 
 	handleDeleteEvent = (eventId) => () => {
 		this.props.deleteEvent(eventId);
 	}
 
 	render() {
-		// const { selectedEvent } = this.state;
 		const { events } = this.props;
 		return (
 			<Grid>
 				<Grid.Column width={10}>
-					<EventList deleteEvent={this.handleDeleteEvent}  events={events} />
-					{/* onEventOpen={this.handleOpenEvent} */}
+					<EventList deleteEvent={this.handleDeleteEvent} events={events} />
 				</Grid.Column>
 				<Grid.Column width={6}>
-					{/* <Button onClick={this.handleFormOpen} positive>Create Event</Button>
-					{this.state.isOpen &&
-						<EventForm 
-							selectedEvent={selectedEvent}
-							updateEvent={this.handleUpdateEvent}
-							handleCancel={this.handleCancel} 
-							createEvent={this.handleCreateEvent}
-						/>
-					} */}
+					<EventActivity />
 				</Grid.Column>
 			</Grid>
 		);
