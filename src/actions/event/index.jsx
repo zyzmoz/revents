@@ -3,7 +3,6 @@ import {
   UPDATE_EVENT,
   DELETE_EVENT
 } from './constants';
-// import { toastr } from 'react-redux-toastr';
 import { toast } from 'react-toastify';
 
 
