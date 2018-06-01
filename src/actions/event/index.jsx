@@ -16,12 +16,12 @@ export const createEvent = (event) => {
         }
       });
       toast.success('Event has been created', {
-        position: toast.POSITION.TOP_RIGHT
+        position: toast.POSITION.BOTTOM_RIGHT
       });
     } catch (error) {
       console.log(error);
       toast.error(error, {
-        position: toast.POSITION.TOP_RIGHT
+        position: toast.POSITION.BOTTOM_RIGHT
       });
     }
   }
@@ -37,11 +37,11 @@ export const updateEvent = (event) => {
         }
       });
       toast.success('Event updated successfully!', {
-        position: toast.POSITION.TOP_RIGHT
+        position: toast.POSITION.BOTTOM_RIGHT
       });
     } catch (error) {
       toast.error(error, {
-        position: toast.POSITION.TOP_RIGHT
+        position: toast.POSITION.BOTTOM_RIGHT
       })
     }
   }
@@ -57,11 +57,11 @@ export const deleteEvent = (eventId) => {
         }
       });
       toast.success('Event deleted successfully', {
-        position: toast.POSITION.TOP_RIGHT
+        position: toast.POSITION.BOTTOM_RIGHT
       })
     } catch (error) {
       toast.error(error, {
-        position: toast.POSITION.TOP_RIGHT
+        position: toast.POSITION.BOTTOM_RIGHT
       })
     }
 
