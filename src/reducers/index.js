@@ -5,6 +5,7 @@ import authReducer from './auth';
 import { reducer as FormReducer } from 'redux-form';
 import { firebaseReducer } from "react-redux-firebase";
 import { firestoreReducer } from "redux-firestore";
+import asyncReducer from './async';
 
 const rootReducer = combineReducers({
   form: FormReducer,
@@ -12,7 +13,8 @@ const rootReducer = combineReducers({
   modals: modalReducer,
   auth: authReducer,
   firebase: firebaseReducer,
-  firestore: firestoreReducer
+  firestore: firestoreReducer,
+  async: asyncReducer
 });
 
 export default rootReducer;
