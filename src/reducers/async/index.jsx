@@ -22,8 +22,8 @@ export const asyncActionError = () => {
   return {...state, loading: false}
 }
 
-export default combineReducers({
+export default createReducer(initialState,{
   [ASYNC_ACTION_START]: asyncActionStarted,
   [ASYNC_ACTION_FINISH]: asyncActionFinished,
-  [ASYNC_ACTION_ERROR]: asyncActionErrors
+  [ASYNC_ACTION_ERROR]: asyncActionError
 })

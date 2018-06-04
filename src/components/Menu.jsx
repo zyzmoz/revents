@@ -1,15 +1,16 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import { withFirebase } from "react-redux-firebase";
 import { Menu, Container, Button } from 'semantic-ui-react';
 import { NavLink, Link, withRouter } from 'react-router-dom';
 import logoSrc from '../assets/img/react.png';
 import SignedOutMenu from './menus/SignedOutMenu';
 import SignedInMenu from './menus/SignedInMenu';
 import { openModal } from '../actions/modal';
-import { logout } from '../actions/auth';
+
 
 class MenuComponent extends Component {
- 
+
   handleSignIn = () => {
     //this.setState({ authenticated: true });
     this.props.openModal('LoginModal');
@@ -20,14 +21,14 @@ class MenuComponent extends Component {
   }
 
   handleSignOut = () => {
-    this.props.logout();
+    this.props.firebase.logout();
     // this.setState({ authenticated: false });
     this.props.history.push('/');
   }
 
   render() {
-    const { auth } = this.props;
-    const authenticated = auth.authenticated;
+    const { auth, profile } = this.props;
+    const authenticated = auth.isLoaded && !auth.isEmpty;
 
     return (<Menu inverted fixed="top">
       <Container>
@@ -43,8 +44,8 @@ class MenuComponent extends Component {
           <Button as={Link} to='/createEvent' floated="right" positive inverted content="Create Event" />
         </Menu.Item>}
         {authenticated ?
-          <SignedInMenu currentUser={auth.currentUser} signOut={this.handleSignOut} /> :
-          <SignedOutMenu signIn={this.handleSignIn} register={this.handleRegister}/>}
+          <SignedInMenu profile={profile} signOut={this.handleSignOut} /> :
+          <SignedOutMenu signIn={this.handleSignIn} register={this.handleRegister} />}
 
       </Container>
     </Menu>
@@ -52,10 +53,11 @@ class MenuComponent extends Component {
   }
 }
 
-const actions = { openModal, logout };
+const actions = { openModal };
 
 const mapState = (state) => ({
-  auth: state.auth
+  auth: state.firebase.auth,
+  profile: state.firebase.profile
 });
 
-export default withRouter(connect(mapState, actions)(MenuComponent));
+export default withRouter(withFirebase(connect(mapState, actions)(MenuComponent)));

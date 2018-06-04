@@ -20,7 +20,8 @@ import { composeWithDevTools } from 'redux-devtools-extension';
 const rrfConfig = {
   userProfile: 'users',
   attachAuthIsReady: true,
-  useFirestoreForProfile: true
+  useFirestoreForProfile: true,
+  updateProfileOnLogin: false
 }
 
 const createStoreWithMiddleware = composeWithDevTools(
