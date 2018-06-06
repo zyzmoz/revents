@@ -6,7 +6,7 @@ import PlacesAutocomplete from 'react-places-autocomplete';
 
 const styles = {
   autocompleteContainer: {
-    zIndex: 1000
+    zIndex: 1000,
   }
 }
 

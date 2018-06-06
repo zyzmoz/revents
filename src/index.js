@@ -28,16 +28,20 @@ const createStoreWithMiddleware = composeWithDevTools(
   applyMiddleware(thunk.withExtraArgument({ getFirebase, getFirestore }) /*Here goes the middlewares*/),
   reactReduxFirebase(firebase, rrfConfig),
   reduxFirestore(firebase))(createStore);
+const store = createStoreWithMiddleware(reducers);
 import reducers from './reducers';
 
-ReactDOM.render(
-  <Provider store={createStoreWithMiddleware(reducers)}>
-    <BrowserRouter>
-      <ScrollToTop>
-        <ToastContainer />
-        <App />
-      </ScrollToTop>
-    </BrowserRouter>
-  </Provider>,
-  document.getElementById('root')
-);
+
+store.firebaseAuthIsReady.then(() => {
+  ReactDOM.render(
+    <Provider store={store}>
+      <BrowserRouter>
+        <ScrollToTop>
+          <ToastContainer />
+          <App />
+        </ScrollToTop>
+      </BrowserRouter>
+    </Provider>,
+    document.getElementById('root')
+  );
+});
