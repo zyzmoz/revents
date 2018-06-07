@@ -17,6 +17,7 @@ const actions = {
 const mapState = (state) => ({
   providerId: state.firebase.auth.providerData[0].providerId,
   user: state.firebase.profile
+  
 })
 const SettingsDashboard = ({updatePassword, updateProfile, providerId, user}) => {
   return (

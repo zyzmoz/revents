@@ -1,15 +1,37 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import { firestoreConnect } from 'react-redux-firebase';
+import { compose } from 'redux';
 import { Segment, Header, Grid, Divider, Card, Button, Image, Icon } from 'semantic-ui-react';
 import Dropzone from 'react-dropzone';
 import Cropper from 'react-cropper';
 import 'cropper/dist/cropper.css';
-import { uploadProfileImage } from '../../../actions/user';
+import { uploadProfileImage, deletePhoto, setMainPhoto } from '../../../actions/user';
 import { toast } from 'react-toastify';
+import logoSrc from '../../../assets/img/react.png';
+
+const query = ({ auth }) => {
+  return [{
+    collection: 'users',
+    doc: auth.uid,
+    subcollections: [{ collection: 'photos' }],
+    storeAs: 'photos'
+  }]
+}
 
 const actions = {
-  uploadProfileImage
+  uploadProfileImage,
+  deletePhoto,
+  setMainPhoto
 }
+
+const mapState = (state) => ({
+  auth: state.firebase.auth,
+  profile: state.firebase.profile,
+  photos: state.firestore.data.photos,
+  loading: state.async.loading
+});
+
 
 class PhotosPage extends Component {
   state = {
@@ -49,8 +71,8 @@ class PhotosPage extends Component {
 
   uploadImage = async () => {
     try {
-      await this.props.uploadProfileImage(this.state.image, this.state.fileName) /
-        this.cancelCrop();
+      await this.props.uploadProfileImage(this.state.image, this.state.fileName);
+      this.cancelCrop();
       toast.success('Photo uploades successfully!', {
         position: toast.POSITION.BOTTOM_RIGHT
       });
@@ -62,7 +84,38 @@ class PhotosPage extends Component {
     }
   }
 
+  handlePhotoDelete = (photo) => async () => {
+    try {
+      await this.props.deletePhoto(photo);
+    } catch (error) {
+      toast.error('Oops ' + error.message, {
+        position: toast.POSITION.BOTTOM_RIGHT
+      });
+    }
+  }
+
+  handleSetMainPhoto = (photo) => async () => {
+    try {
+      await this.props.setMainPhoto(photo);
+    } catch (error) {
+      toast.error('Oops ' + error.message, {
+        position: toast.POSITION.BOTTOM_RIGHT
+      });
+    }
+  }
+
+
   render() {
+    const { profile, photos, loading } = this.props;
+    console.log(photos);
+    let filteredPhotos;
+    if (photos) {
+      filteredPhotos = Object.keys(photos).map((id) => {
+        return {id, ...photos[id]}        
+      }).filter(photo => photo.url !== profile.photoURL);
+      console.log(filteredPhotos);
+      
+    }
     return (
       <Segment>
         <Header dividing size="large" content="Your Photos" />
@@ -91,7 +144,7 @@ class PhotosPage extends Component {
                 scalable={true}
                 cropBoxMovable={true}
                 cropBoxResizable={true}
-                crop={this.cropImage}
+                crop={() => this.cropImage()}
               />
             }
           </Grid.Column>
@@ -105,6 +158,7 @@ class PhotosPage extends Component {
                 />
                 <Button.Group>
                   <Button
+                    loading={loading}
                     style={{ width: '100px' }}
                     positive
                     icon="check"
@@ -114,6 +168,7 @@ class PhotosPage extends Component {
                     style={{ width: '100px' }}
                     icon="close"
                     color="red"
+                    disabled={loading}
                     onClick={this.cancelCrop}
                   />
                 </Button.Group>
@@ -125,18 +180,30 @@ class PhotosPage extends Component {
         <Header color="teal" sub content="All Photos" />
         <Card.Group itemsPerRow="5">
           <Card>
-            <Image src="https://randomuser.me/api/portraits/men/20.jpg" />
+            <Image src={profile.photoURL || logoSrc} />
             <Button positive content="Main Photo" />
           </Card>
+          {photos && filteredPhotos.map((photo, ) =>
+            <Card key={photo.id}>
+              <Image src={photo.url} />
+              <div className="ui two buttons">
+                <Button
 
-          <Card>
-            <Image src="https://randomuser.me/api/portraits/men/21.jpg" />
-            <div className="ui two buttons">
-              <Button basic color="green" content="Main" />
-              <Button basic icon="trash" color="red" />
+                  basic
+                  color="green"
+                  content="Main"
+                  onClick={this.handleSetMainPhoto(photo)}
+                />
+                <Button
+                  basic
+                  icon="trash"
+                  color="red"
 
-            </div>
-          </Card>
+                  onClick={this.handlePhotoDelete(photo)}
+                />
+              </div>
+            </Card>)
+          }
         </Card.Group>
 
       </Segment>
@@ -144,4 +211,7 @@ class PhotosPage extends Component {
   }
 }
 
-export default connect(null, actions)(PhotosPage);
+export default compose(
+  connect(mapState, actions),
+  firestoreConnect(auth => query(auth))
+)(PhotosPage);
