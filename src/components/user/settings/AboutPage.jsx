@@ -16,12 +16,12 @@ const interests = [
 	{ key: 'travel', text: 'Travel', value: 'travel' },
 ];
 
-const AboutPage = ({pristine, submitting}) => {
+const AboutPage = ({pristine, submitting, handleSubmit, updateProfile}) => {
   return (
     <Segment>
       <Header dividing size="large" content="About Me" />
       <p>Complete your profile to get the most out of this site</p>
-      <Form>
+      <Form onSubmit={handleSubmit(updateProfile)}>
         <label >Tell us about your status: </label>
         <Form.Group>
           <Field
@@ -89,7 +89,4 @@ const AboutPage = ({pristine, submitting}) => {
 
 }
 
-
-
-
-export default reduxForm({form: 'about', enableReinitialize: true, destroyOnUnmount: true})(AboutPage);
+export default reduxForm({form: 'userProfile', enableReinitialize: true, destroyOnUnmount: false})(AboutPage);

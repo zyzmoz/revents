@@ -26,7 +26,7 @@ const SettingsDashboard = ({updatePassword, updateProfile, providerId, user}) =>
         <Switch>
           <Redirect exact from='/settings' to='/settings/basics' />
           <Route path='/settings/basics' component={() => <BasicsPage updateProfile={updateProfile} initialValues={user} />} />
-          <Route path='/settings/about' component={AboutPage} />
+          <Route path='/settings/about' component={() => <AboutPage updateProfile={updateProfile} initialValues={user}/>} />
           <Route path='/settings/photos' component={PhotosPage} />
           <Route path='/settings/account' component={() => <AccountPage updatePassword={updatePassword} providerId={providerId}/>} />
         </Switch>
