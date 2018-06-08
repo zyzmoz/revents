@@ -5,6 +5,7 @@ import { withRouter, Link } from 'react-router-dom';
 import { Grid, Segment, Item, Header, Button, Icon, Image } from 'semantic-ui-react';
 import logoSrc from '../../../assets/img/react.png';
 import moment from 'moment';
+import format from  'date-fns/format';
 
 const photoStyle = {
   maxWidth: '150px',
@@ -56,7 +57,7 @@ class UserDetailedPage extends Component {
                     <br />
                     <Header as="h3" content={user.occupation} />
                     <br />
-                    <Header as="h2" content={moment().diff(new Date(user.dateOfBirth.seconds * 1000), 'years') + ', Lives in ' + user.city} />
+                    <Header as="h2" content={moment().diff( user.dateOfBirth.toDate(), 'years') + ', Lives in ' + user.city} />
                   </Item.Content>
                 </Item>
               </Item.Group>
@@ -70,7 +71,7 @@ class UserDetailedPage extends Component {
                   <Header icon="smile" content="About Name" />
                   <p>I'm a: <b>{user.occupation}</b></p>
                   <p>Originally from:<b>{user.city}</b></p>
-                  <p>Member since:<b>{moment(new Date(user.createdAt.seconds * 1000)).format("YYYY/MM/DD")}</b></p>
+                  <p>Member since:<b>{moment(user.createdAt.toDate()).format("YYYY/MM/DD")}</b></p>
                   <br />
                   <p>{user.about}</p>
                 </Grid.Column>

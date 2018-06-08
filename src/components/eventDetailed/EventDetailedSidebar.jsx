@@ -1,9 +1,10 @@
 import React from 'react';
 import { Segment, List, Item, Label } from 'semantic-ui-react';
 import imageSrc from '../../assets/img/react.png';
+import {objectToArray} from '../util/helpers';
 
 const EventDetailedSidebar = ({ attendees }) => {
-  const {isHost} = attendees;
+  // const {host} = attendees;
   return (
     <div>
       <Segment
@@ -18,9 +19,9 @@ const EventDetailedSidebar = ({ attendees }) => {
       </Segment>
       <Segment attached>
         <List relaxed divided>
-          {attendees && attendees.map(attendee => (
+          {attendees && objectToArray(attendees).map(attendee => (
             <Item key={attendee.id} style={{ position: 'relative' }}>
-              {attendee.isHost &&
+              {attendee.host &&
                 <Label
                   style={{ position: 'absolute' }}
                   color="orange"
