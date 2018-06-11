@@ -53,9 +53,13 @@ class EventForm extends Component {
 	}
 
 	async componentDidMount() {
-		const { firestore, match } = this.props;
+		const { firestore, match } = this.props;		
 		await firestore.setListener(`events/${match.params.id}`);
-		
+	}
+
+	async componentWillMount () {
+		const { firestore, match } = this.props;
+		await firestore.unsetListener(`events/${match.params.id}`);
 
 	}
 
@@ -95,7 +99,7 @@ class EventForm extends Component {
 	handleScriptLoad = () => this.setState({ scriptLoaded: true });
 
 	render() {
-		const { invalid, submitting, pristine, event, cancelToggle } = this.props;
+		const { invalid, submitting, pristine, event, cancelToggle } = this.props;		
 		return (
 			<Grid.Column width={10}>
 				<Script
@@ -191,4 +195,4 @@ const actions = {
 	cancelToggle
 }
 
-export default withFirestore(connect(mapState, actions)(reduxForm({ form: 'eventForm', enableReinitialize: true, validate })(EventForm)));
+export default withFirestore(connect(mapState, actions)(reduxForm({ form: 'eventForm', enableReinitialize: true, destroyOnUnmount: true, validate })(EventForm)));

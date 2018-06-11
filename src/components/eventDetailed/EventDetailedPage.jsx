@@ -24,15 +24,16 @@ class EventDetailedPage extends Component {
   }
 
   render() {
-    const { event } = this.props;
+    const { event, auth } = this.props;
     console.log(event);
-    
-
+    const isHost = event.hostUid === auth.uid;    
+    const isGoing = event.attendees && Object.keys(event.attendees).some(id => id === auth.uid );
+    console.log(event.hostUid, auth.uid ,isHost);
     return (
       <Grid>
         { event  &&
         <Grid.Column width={10}>
-          <EventDetailedHeader event={event} />
+          <EventDetailedHeader event={event} isHost={isHost}  isGoing={isGoing} />
           <EventDetailedInfo event={event} />
           <EventDetailedChat />
         </Grid.Column>}
@@ -54,7 +55,8 @@ const mapState = (state, ownProps) => {
   }
 
   return {
-    event
+    event,
+    auth: state.firebase.auth
   }
 }
 

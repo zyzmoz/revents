@@ -68,7 +68,7 @@ export const cancelToggle = (cancelled, eventId) => {
     } catch (error) {
       toast.error(error, {
         position: toast.POSITION.BOTTOM_RIGHT
-      })      
+      });      
     }
   }
 }

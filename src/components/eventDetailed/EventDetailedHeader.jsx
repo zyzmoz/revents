@@ -19,11 +19,11 @@ const eventImageTextStyle = {
   color: 'white'
 }
 
-const EventDetailedHeader = ({event}) => {
+const EventDetailedHeader = ({ event, isHost, isGoing }) => {
   return (
     <Segment.Group>
-      <Segment basic attached="top" style={{padding:'0'}}>
-        <Image src={headerImage} fluid style={eventImageStyle}/>
+      <Segment basic attached="top" style={{ padding: '0' }}>
+        <Image src={headerImage} fluid style={eventImageStyle} />
         <Segment basic style={eventImageTextStyle}>
           <Item.Group>
             <Item>
@@ -31,7 +31,7 @@ const EventDetailedHeader = ({event}) => {
                 <Header
                   size="huge"
                   content={event.title}
-                  style={{color: 'white'}}
+                  style={{ color: 'white' }}
                 />
                 <p>{format(event.date.toDate(), 'dddd Do MMMM')} at {format(event.date.toDate(), 'HH:mm')}</p>
                 <p>
@@ -43,15 +43,25 @@ const EventDetailedHeader = ({event}) => {
         </Segment>
       </Segment>
       <Segment attached="bottom">
-        <Button>Cancel my Place</Button>
-        <Button color="teal">Join This Event</Button>
-        <Button as={Link} to={`/manage/${event.id}`} color="orange" >
-          Manage Event
+        {!isHost &&
+          <div>
+            {isGoing ?
+              <Button>Cancel my Place</Button> :
+              <Button color="teal">Join This Event</Button>
+            }
+          </div>
+        }
+
+
+        {isHost &&
+          <Button as={Link} to={`/manage/${event.id}`} color="orange" >
+            Manage Event
         </Button>
+        }
       </Segment>
     </Segment.Group>
 
-    
+
   );
 };
 
