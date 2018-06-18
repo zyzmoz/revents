@@ -116,17 +116,68 @@ export const setMainPhoto = (photo) => {
   }
 }
 
-export const getUser = (uid) => {
-  return async (diapatch, getState, { getFirebase }) => {
+export const goingToEvent = (event) =>  {
+  return async (dispatch, getState, {getFirestore, getFirebase}) => {
+    const firestore = getFirestore();
+    const firebase = getFirebase();
+    const user = firebase.auth().currentUser;
+    const photoURL = getState().firebase.profile.photoURL;
+    console.log(user);
+    const attendee = {
+      going: true,
+      joinDate: Date.now(),
+      photoURL: photoURL,
+      displayName: getState().firebase.profile.displayName,
+      host: false
+    }
     try {
-      let user = await firestore.get(`users/${uid}`);
-      dispatch({
-        type: getUser,
-        payload: { user }
+      await firestore.update(`events/${event.id}`, {
+        [`attendees.${user.uid}`]: attendee
+      });
+      await  firestore.set(`event_attendee/${event.id}_${user.uid}`, {
+        eventId: event.id,
+        userUid: user.uid,
+        eventDate: event.date,
+        host: false   
+      });
+      toast.success('You\'ve signed up to the event!', {
+        position: toast.POSITION.BOTTOM_RIGHT
       });
     } catch (error) {
+      console.log(error)
+      toast.error('Oops! Problem signing up to event', {
+        position: toast.POSITION.BOTTOM_RIGHT
+      });
+    }
 
+  }
+
+}
+
+export const cancelGoingToEvent = (event) => {
+  return async (dispatch, getState, {getFirestore, getFirebase}) => {
+    const firebase = getFirebase();
+    const firestore = getFirestore();
+    const user = firebase.auth().currentUser;
+    console.log('Deleting event subscription')
+    let attendees = event.attendees;
+    delete attendees[user.uid];
+    try {
+      await firestore.update(`events/${event.id}`, {
+        attendees
+      });
+      await firestore.delete(`event_attendee/${event.id}_${user.uid}`);
+      toast.success('You have removed yourself from the event', {
+        position: toast.POSITION.BOTTOM_RIGHT
+      });
+    } catch (error) {
+      console.log(error);
+      toast.error('Oops! Something went wrong!', {
+        position: toast.POSITION.BOTTOM_RIGHT
+      });
     }
   }
 }
+
+
 

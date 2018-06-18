@@ -1,5 +1,6 @@
 import React from 'react';
 import { Segment, List, Item, Label } from 'semantic-ui-react';
+import { Link } from 'react-router-dom';
 import imageSrc from '../../assets/img/react.png';
 import {objectToArray} from '../util/helpers';
 
@@ -33,7 +34,7 @@ const EventDetailedSidebar = ({ attendees }) => {
               <Item.Image size="tiny" src={attendee.photoURL} />
               <Item.Content verticalAlign="middle">
                 <Item.Header as="h3">
-                  <a>{attendee.displayName}</a>
+                  <a href={`/profile/${attendee.id}`}>{attendee.displayName}</a>
                 </Item.Header>
               </Item.Content>
             </Item>
