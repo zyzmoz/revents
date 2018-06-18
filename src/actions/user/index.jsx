@@ -126,7 +126,7 @@ export const goingToEvent = (event) =>  {
     const attendee = {
       going: true,
       joinDate: Date.now(),
-      photoURL: photoURL,
+      photoURL: photoURL || null,
       displayName: getState().firebase.profile.displayName,
       host: false
     }

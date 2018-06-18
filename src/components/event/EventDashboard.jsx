@@ -3,7 +3,7 @@ import { Grid, Button } from 'semantic-ui-react';
 import EventList from './EventList';
 import EventForm from '../eventForm/EventForm';
 import { connect } from 'react-redux';
-import { firestoreConnect } from "react-redux-firebase";;
+import { firestoreConnect, isLoaded, isEmpty } from "react-redux-firebase";;
 import {
 	createEvent,
 	updateEvent,
@@ -21,7 +21,8 @@ class EventDashboard extends Component {
 
 	render() {
 		const { events } = this.props;
-		return (
+		if(!isLoaded(events) || isEmpty(events)) return <LoadingComponent inverted={true}/>;
+		return (			
 			<Grid>
 				<Grid.Column width={10}>
 					<EventList deleteEvent={this.handleDeleteEvent} events={events} />

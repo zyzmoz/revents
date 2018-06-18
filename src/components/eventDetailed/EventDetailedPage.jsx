@@ -36,11 +36,9 @@ class EventDetailedPage extends Component {
   }
 
   render() {
-    const { event, auth, goingToEvent, cancelGoingToEvent } = this.props;
-    console.log(event);
+    const { event, auth, goingToEvent, cancelGoingToEvent } = this.props;    
     const isHost = event && event.hostUid === auth.uid;    
-    const isGoing = event && event.attendees && Object.keys(event.attendees).some(id => id === auth.uid );
-    console.log(event);
+    const isGoing = event && event.attendees && Object.keys(event.attendees).some(id => id === auth.uid );    
     return (
       <Grid>
         { event  &&
