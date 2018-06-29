@@ -3,11 +3,11 @@ This project is a study case of modern react-redux development with firebase. Th
 information about events they are planning or going to;
 
 This Project use: 
--Parcel as bundler 
--React Semantic UI as UI framework 
--Redux as state manager
--Firebase as real-time database
--Jest to test all the stuff!
+* Parcel as bundler 
+* React Semantic UI as UI framework 
+* Redux as state manager
+* Firebase as real-time database
+* Jest to test all the stuff!
 
 
 ## Usage
